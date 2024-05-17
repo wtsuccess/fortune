@@ -40,14 +40,14 @@ export default function RootTemplate({ children }: PropsWithChildren) {
             width: "404px",
             height: "536px",
             borderRadius: "20px",
-            "@media screen and (maxWidth: 403px)": {
-              width: "100%",
-              height: "617px",
-            },
-            "@media screen and (maxWidth: 353px)": {
-              width: "353px",
-              height: "617px",
-            },
+            // "@media screen and (maxWidth: 403px)": {
+            //   width: "100%",
+            //   height: "617px",
+            // },
+            // "@media screen and (maxWidth: 353px)": {
+            //   width: "353px",
+            //   height: "617px",
+            // },
           }}
         />
         <div className="absolute inset-0" onClick={() => setShow(false)}></div>
