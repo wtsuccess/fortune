@@ -26,7 +26,7 @@ const Footer = () => {
             </button>
           </div>
         </div>
-        <div className="flex justify-between items-center mt-[50px]">
+        <div className="flex justify-between items-center mt-[50px] md:flex-col gap-4">
           <p className="bottom">
             Copyright © 2023 Polar GameFi. All rights reserved.
           </p>

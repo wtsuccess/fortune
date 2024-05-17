@@ -8,16 +8,16 @@ interface IStep {
 
 export default function Card({ step }: { step: IStep }) {
   return (
-    <div className="p-10 bg-[#1D1E2E]">
+    <div className="p-10 bg-[#1D1E2E] rounded-[20px]">
       <Image
         src={step.image}
         alt="Connect Wallet"
         width={70}
         height={70}
-        className="mx-auto"
+        className="mx-auto lg:w-14 lg:h-14"
       />
-      <h3 className="text-[#ECECEC] mt-8">{step.title}</h3>
-      <p className="title mt-3">{step.description}</p>
+      <h3 className="text-text mt-8 lg:text-[25px]">{step.title}</h3>
+      <p className="text-text title mt-3">{step.description}</p>
     </div>
   );
 }

@@ -38,29 +38,25 @@ export default function TicketSection() {
   return (
     <div className="py-[116px] lg:pt-0 relative">
       <div className="relative z-10 container">
-        <div className="grid grid-cols-3 max-w-[1176px] w-full mx-auto justify-center gap-12 lg:grid-cols-1">
+        <div className="grid grid-cols-3 max-w-[1250px] w-full mx-auto justify-center gap-24 lg:grid-cols-1 lg:gap-10">
           {steps.map((step, i) => (
             <Card step={step} key={i} />
           ))}
         </div>
-        <div className="max-w-[920px] my-[116px] mx-auto">
-          <p className="font-bold text-[40px] leading-normal text-center">
+        <div id="tickets" className="max-w-[874px] mt-[116px] mx-auto">
+          <h5 className="font-bold text-[40px] leading-normal text-center lg:text-3xl">
             Only <span className="bg-primary">15.000</span> to go
-          </p>
-          <p className="font-bold text-[20px] leading-normal text-center">
-            before trying to win 20,000AVAX
-          </p>
+          </h5>
+          <h6 className="lg:text-[15px]">before trying to win 20,000AVAX</h6>
           <div className="relative pt-4 mt-[35px]">
-            <p className="absolute -bottom-10 left-0">0</p>
-            <p className="absolute -bottom-10 right-0">
-              20.000
-            </p>
-            <p
+            <h4 className="absolute -bottom-10 left-0">0</h4>
+            <h4 className="absolute -bottom-10 right-0">20.000</h4>
+            <h4
               className="absolute bottom-2 -translate-x-1/2"
               style={{ left: `${progress / 0.2}%` }}
             >
               {progress}
-            </p>
+            </h4>
             <Slider
               className="mySlider"
               onChange={(e) => setProgress(e as number)}
@@ -69,7 +65,7 @@ export default function TicketSection() {
             />
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="max-w-[706px] mt-20 mx-auto">
           <BuyTicket />
         </div>
       </div>
