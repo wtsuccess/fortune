@@ -1,7 +1,7 @@
 import Image from "next/image";
 import buyTicketImage from "@/assets/images/buy_ticket.png";
 import { useState } from "react";
-import { drop } from "@/lib/contracts/drop";
+// import { drop } from "@/lib/contracts/drop";
 
 export default function BuyTicket() {
   const [numTicket, setNumTicket] = useState(0);
@@ -46,7 +46,7 @@ export default function BuyTicket() {
         <h2 className="text-center lg:text-3xl">{numTicket * 5} STAX</h2>
         <button
           className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer"
-          onClick={() => drop(numTicket)}
+          // onClick={() => drop(numTicket)}
         >
           Enter drop
         </button>
