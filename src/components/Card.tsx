@@ -8,7 +8,7 @@ interface IStep {
 
 export default function Card({ step }: { step: IStep }) {
   return (
-    <div className="w-[354px] p-10 bg-[#1D1E2E] mx-6">
+    <div className="p-10 bg-[#1D1E2E]">
       <Image
         src={step.image}
         alt="Connect Wallet"

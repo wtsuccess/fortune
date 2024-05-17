@@ -1,3 +1,5 @@
+'use client'
+
 import HeroSection from "@/components/sections/Hero";
 import TicketSection from "@/components/sections/Ticket";
 

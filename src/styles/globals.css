@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-  @apply mx-auto w-full max-w-none px-5;
+  @apply mx-auto w-full max-w-[1536px] px-5;
 }
 
 input,
@@ -40,15 +40,16 @@ p.title {
   @apply font-medium text-lg leading-normal text-center;
 }
 
-.mySlider {
-}
+p.bottom {
+  @apply font-normal text-sm leading-10 text-center;
+}	
 
 .mySlider .rc-slider-track {
   @apply h-5;
 }
 
 .mySlider .rc-slider-rail {
-  @apply h-5;
+  @apply h-5 rounded-[30px];
 }
 
 .mySlider .rc-slider-handle {

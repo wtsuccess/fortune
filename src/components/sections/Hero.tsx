@@ -3,16 +3,28 @@ import cx from "classnames";
 import MetamaskImage from "@/assets/images/metamask.png";
 import Image from "next/image";
 import { openSans } from "@/app/fonts";
+import { useAccount } from "wagmi";
+
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { formatAddress } from "@/utils/1";
 
 export default function HeroSection() {
+  const { open } = useWeb3Modal();
+  const { address, isConnected } = useAccount();
+
   return (
     <div className="h-[708px] relaitve flex items-center justify-center overflow-hidden bg-[url('/assets/images/hero_background.png')] bg-cover bg-center">
       <div className="absolute top-5 w-full">
         <div className="max-w-[1560px] w-full mx-auto px-5 flex justify-end">
-          <button className="py-[15px] px-10 flex items-center gap-2.5 rounded-full bg-[#ECECEC]">
+          <button
+            className="py-[15px] px-10 flex items-center gap-2.5 rounded-full bg-[#ECECEC]"
+            onClick={() => {
+              open();
+            }}
+          >
             <Image src={MetamaskImage} alt="Metamask" width={32} height={32} />
             <p className="text-black text-base font-medium">
-              Login with Meta Mask
+              {isConnected && address ? formatAddress(address) : "Login with Meta Mask"}
             </p>
           </button>
         </div>
