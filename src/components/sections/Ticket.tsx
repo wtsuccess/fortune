@@ -38,7 +38,7 @@ export default function TicketSection() {
   return (
     <div className="py-[116px] lg:pt-0 relative">
       <div className="relative z-10 container">
-        <div className="grid grid-cols-3 max-w-[1250px] w-full mx-auto justify-center gap-24 lg:grid-cols-1 lg:gap-10">
+        <div className="grid grid-cols-3 max-w-[1250px] w-full mx-auto justify-center gap-24 md:grid-cols-1 lg:gap-10 md:gap-5">
           {steps.map((step, i) => (
             <Card step={step} key={i} />
           ))}
@@ -52,7 +52,7 @@ export default function TicketSection() {
             <h4 className="absolute -bottom-10 left-0">0</h4>
             <h4 className="absolute -bottom-10 right-0">20.000</h4>
             <h4
-              className="absolute bottom-2 -translate-x-1/2"
+              className="absolute bottom-4 -translate-x-1/2"
               style={{ left: `${progress / 0.2}%` }}
             >
               {progress}
