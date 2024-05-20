@@ -18,6 +18,7 @@ export default function BuyTicket() {
   const handleDrop = async () => {
     try {
       await drop(numTicket);
+      toast.success("Transaction Successful!");
     } catch (err: any) {
       toast.error(err.message);
     }
