@@ -5,6 +5,7 @@ import { config } from "@/config/wallet";
 import Web3ModalProvider from "@/contexts/wagmi";
 import "@/styles/globals.css";
 import { poppins } from "./fonts";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Fortune | PolarFi",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Web3ModalProvider initialState={initialState}>
           {children}
         </Web3ModalProvider>
+        <Toaster position="top-right" />
       </body>
     </html>
   );

@@ -1,69 +1,55 @@
-// export const drop = async (numTicket: number) => {
-//     console.log("numTicket", numTicket);
-    
-//     try {
-//         // Recover the connected wallet
-//         const accounts = await window.ethereum.request({
-//             method: "eth_accounts",
-//         });
+import { config } from '@/config/wallet'
+import {
+    simulateContract,
+    readContract,
+    waitForTransactionReceipt,
+    writeContract,
+    getAccount
+} from '@wagmi/core';
+import fortuneAbi from "@/lib/abi/fortune.json";
+import staxAbi from "@/lib/abi/stax.json";
+import { FORTUNE_ADDRESS, STAX_ADDRESS } from '@/config/env';
+import { parseEther } from 'viem';
 
-//         // Verify if the wallet is connected
-//         const balanceWithZeros = await getBalance(accounts[0]);
-//         const balanceWithoutZeros = balanceWithZeros / 1e18;
-//         if (balanceWithoutZeros < XFull) {
-//             const transaction = await enterMultiple(numTickets);
-//             console.log("waiting for transaction to be mined...");
-//             await transaction.wait();
-//             console.log(
-//                 `Transaction successful! ${accounts[0]} bought ${numTickets} tickets.`
-//             );
+export const drop = async (numTicket: number) => {
+    const account = getAccount(config);
 
-//             // Handle the transaction success or other logic here
-//             setTransactionSuccessful(true);
-//         } else {
-//             console.log("Fortune is full.");
-//             alert("Fortune is full.");
-//         }
-//     } catch (error) {
-//         console.error("Error entering fortune:", error);
-//         alert("You don't have enough USDC to enter Fortune.");
-//         // Handle the error, show a message to the user, etc.
-//     }
-// };
+    if (!account.address) throw Error('Please connect your wallet');
+    if (numTicket <= 0) throw Error('Ticket should be larger than 0');
 
-// const handleApprove = async () => {
-//     if (numTickets > 0) {
-//         try {
-//             // Recover the connected wallet
-//             const accounts = await window.ethereum.request({
-//                 method: "eth_accounts",
-//             });
-//             console.log("accounts", accounts);
+    const allowance = await getAllowance(account.address, FORTUNE_ADDRESS);
 
-//             // Verify if the wallet is connected
-//             if (accounts.length > 0) {
-//                 const approveTransaction = await approve(numTickets);
-//                 console.log("waiting for approval transaction to be mined...");
-//                 setWaitingApproval(true);
-//                 await approveTransaction.wait();
-//                 console.log("Transaction successful!");
+    if (allowance < parseEther(numTicket + "")) {
+        const tx = await approve(numTicket);
+    }
 
-//                 // Handle the approval success or other logic here
-//                 setApprovalStatus(true);
-//                 setWaitingApproval(false);
-//                 setButtonsDisabled(true);
-//             } else {
-//                 console.log("No connected wallet. Please connect your wallet.");
-//             }
-//         } catch (error) {
-//             console.error("Error approving:", error);
-//             setWaitingApproval(false);
-//             setButtonsDisabled(false);
-//             // Handle the error, show a message to the user, etc.
-//         }
-//     } else {
-//         console.log("Cannot enter Fortune with 0 tickets.");
-//         alert("You cannot enter Fortune with 0 tickets.");
-//         // Optionally, you can show a message to the user indicating they cannot enter Fortune with 0 tickets.
-//     }
-// };
+    const { request } = await simulateContract(config, {
+        abi: fortuneAbi,
+        address: FORTUNE_ADDRESS as `0x${string}`,
+        functionName: 'enterMultiple',
+        args: [3, numTicket],
+    });
+    const hash = await writeContract(config, request);
+    const result = await waitForTransactionReceipt(config, { hash });
+}
+
+const approve = async (numTicket: number) => {
+    const { request } = await simulateContract(config, {
+        abi: staxAbi,
+        address: STAX_ADDRESS as `0x${string}`,
+        functionName: 'approve',
+        args: [FORTUNE_ADDRESS, parseEther(numTicket + "")],
+    });
+    const hash = await writeContract(config, request);
+    const result = await waitForTransactionReceipt(config, { hash });
+}
+
+const getAllowance = async (owner: `0x${string}`, spender: string) => {
+    const allowance = await readContract(config, {
+        abi: staxAbi,
+        address: STAX_ADDRESS as `0x${string}`,
+        functionName: 'allowance',
+        args: [owner, spender],
+    })
+    return allowance as bigint;
+}

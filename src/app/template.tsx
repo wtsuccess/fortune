@@ -19,6 +19,7 @@ export default function RootTemplate({ children }: PropsWithChildren) {
         alt="Bubble"
         width={64}
         height={64}
+        
         className="fixed bottom-4 left-4 animate-[spin_4s_linear_infinite] cursor-pointer z-10"
         onClick={() => setShow(true)}
       />
