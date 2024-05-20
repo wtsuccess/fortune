@@ -56,7 +56,7 @@ export default function BuyTicket() {
         <p className="title">Total</p>
         <h2 className="text-center lg:text-3xl">{numTicket} STAX</h2>
         <button
-          className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer"
+          className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:hover:bg-sky-400"
           onClick={handleDrop}
         >
           Enter drop

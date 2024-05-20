@@ -20,7 +20,7 @@ export default function HeroSection() {
   };
 
   return (
-    <div className="h-[708px] relaitve flex items-center justify-center overflow-hidden bg-[url('/assets/images/hero_background.png')] bg-cover bg-center">
+    <div className="h-[708px] relaitve flex items-center justify-center overflow-hidden bg-[url('/assets/images/hero_background.png')] bg-contain bg-center">
       <div className="absolute top-5 w-full">
         <div className="max-w-[1560px] w-full mx-auto px-5 flex justify-end lg:justify-center">
           <button
@@ -33,7 +33,7 @@ export default function HeroSection() {
             <p className="text-black text-base font-medium">
               {isConnected && address
                 ? shortenAddress(address)
-                : "Login with Meta Mask"}
+                : "Connect Wallet"}
             </p>
           </button>
         </div>
@@ -53,7 +53,7 @@ export default function HeroSection() {
             investment into a fabulous victory !
           </p>
           <button
-            className="rounded-full h-[54px] w-[196px] font-semibold text-text bg-blue block mx-auto mt-6"
+            className="rounded-full h-[54px] w-[196px] font-semibold text-text bg-blue block mx-auto mt-6 hover:bg-sky-400"
             onClick={scrollToTickets}
           >
             Buy ticket
