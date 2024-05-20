@@ -63,3 +63,7 @@ p.bottom {
 .mySlider .rc-slider-handle {
   @apply w-7 h-7 aspect-square -mt-1;
 }
+
+button {
+  
+}
