@@ -1,11 +1,20 @@
 import Image from "next/image";
 import buyTicketImage from "@/assets/images/buy_ticket.png";
-import { useState } from "react";
-import { drop } from "@/lib/contracts/drop";
+import { useEffect, useState } from "react";
+import { drop, getTicketPrice } from "@/lib/contracts/drop";
 import toast from "react-hot-toast";
 
 export default function BuyTicket() {
   const [numTicket, setNumTicket] = useState(0);
+  const [ticketPrice, setTicketPrice] = useState(0);
+
+  useEffect(() => {
+    const fetchTicketPrice = async () => {
+      const ticketPrice = await getTicketPrice();
+      setTicketPrice(ticketPrice);
+    };
+    fetchTicketPrice()
+  }, []);
 
   const decreaseNumTicket = () => {
     if (numTicket > 0) setNumTicket(numTicket - 1);
@@ -35,7 +44,7 @@ export default function BuyTicket() {
           className="mx-auto"
         />
         <h2 className="lg:text-3xl mt-1">Buy your Tickets</h2>
-        <p className="title mt-1">1 ticket = 1 STAX</p>
+        <p className="title mt-1">1 ticket = {ticketPrice} STAX</p>
         <div className="flex gap-10 justify-center items-center mt-12 lg:mt-6">
           <button
             className="rounded-full border-[3px] text-white w-14 h-14 text-3xl"
@@ -54,7 +63,7 @@ export default function BuyTicket() {
       </div>
       <div className="flex flex-col bg-[#2E3452] py-5 px-[30px] rounded-b-[20px]">
         <p className="title">Total</p>
-        <h2 className="text-center lg:text-3xl">{numTicket} STAX</h2>
+        <h2 className="text-center lg:text-3xl">{numTicket * ticketPrice} STAX</h2>
         <button
           className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:bg-sky-400 ease-in transition-all"
           onClick={handleDrop}
