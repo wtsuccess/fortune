@@ -8,9 +8,14 @@ import BuyTicket from "../BuyTicket";
 
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import GradientImage from "@/assets/images/bg_gradient.png";
+import { getDistributionRate, getDraw } from "@/lib/contracts/drop";
+import { formatEther } from "viem";
+import { getBalance } from "@/lib/contracts/usdc";
+import { FORTUNE_ADDRESS } from "@/config/env";
+import { calculateCompletionPercentage } from "@/lib/utils";
 
 const steps: { image: StaticImageData; title: string; description: string }[] =
   [
@@ -34,6 +39,43 @@ const steps: { image: StaticImageData; title: string; description: string }[] =
 
 export default function TicketSection() {
   const [progress, setProgress] = useState<number>(0);
+  const [hardcap, setHardcap] = useState<number>(0);
+  const [totalDistributionRate, setTotalDistributionRate] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchHardcap = async () => {
+      const draw = await getDraw();
+      const hardcap = Number(formatEther(draw[8]));
+      setHardcap(hardcap);
+    };
+
+    const fetchDistributionRate = async () => {
+      const distributionRate = await getDistributionRate();
+      const totalDistributionRate = distributionRate.reduce(
+        (total: any, num: any) => {
+          return total + num;
+        }
+      );
+      setTotalDistributionRate(Number(totalDistributionRate));
+    };
+
+    const fetchBalance = async () => {
+      const balance = Number(formatEther(await getBalance(FORTUNE_ADDRESS)));
+      setBalance(balance);
+    };
+    
+    fetchHardcap();
+    fetchDistributionRate();
+    fetchBalance();
+  }, []);
+
+  useEffect(() => {
+    const completionPercentage = calculateCompletionPercentage(balance, hardcap);
+    console.log("completionPercentage", completionPercentage);
+    setProgress(completionPercentage);
+  }, [balance, hardcap])
+  
 
   return (
     <div className="py-[116px] lg:pt-0 relative">
@@ -45,23 +87,26 @@ export default function TicketSection() {
         </div>
         <div id="tickets" className="max-w-[874px] mt-[116px] mx-auto">
           <h5 className="font-bold text-[40px] leading-normal text-center lg:text-3xl">
-            Only <span className="bg-primary">15.000</span> to go
+            Only <span className="bg-primary">{hardcap}</span> to go
           </h5>
-          <h6 className="lg:text-[15px]">before trying to win 20,000AVAX</h6>
+          <h6 className="lg:text-[15px]">
+            before trying to win {(hardcap * totalDistributionRate) / 10000}{" "}
+            USDC
+          </h6>
           <div className="relative pt-4 mt-[35px]">
             <h4 className="absolute -bottom-10 left-0">0</h4>
-            <h4 className="absolute -bottom-10 right-0">20.000</h4>
+            <h4 className="absolute -bottom-10 right-0">{hardcap}</h4>
             <h4
               className="absolute bottom-4 -translate-x-1/2"
-              style={{ left: `${progress / 0.2}%` }}
+              style={{ left: `${progress}%` }}
             >
               {progress}
             </h4>
             <Slider
               className="mySlider"
-              onChange={(e) => setProgress(e as number)}
+              // onChange={(e) => setProgress(e as number)}
               min={0}
-              max={20.0}
+              max={hardcap}
             />
           </div>
         </div>

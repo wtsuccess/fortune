@@ -7,9 +7,9 @@ import {
     getAccount
 } from '@wagmi/core';
 import fortuneAbi from "@/lib/abi/fortune.json";
-import staxAbi from "@/lib/abi/stax.json";
-import { FORTUNE_ADDRESS, STAX_ADDRESS } from '@/config/env';
+import { FORTUNE_ADDRESS } from '@/config/env';
 import { parseEther, formatEther } from 'viem';
+import { approve, getAllowance } from './usdc';
 
 export const drop = async (numTicket: number) => {
     const account = getAccount(config);
@@ -18,12 +18,17 @@ export const drop = async (numTicket: number) => {
     if (numTicket <= 0) throw Error('Ticket should be larger than 0');
 
     const openDrawId = await getOpenDrawId();
-    const ticketPrice = await getTicketPrice();
+
+    const draw = await getDraw();
+    const ticketPrice = Number(formatEther(draw[2]));
+    
     const totalPrice = numTicket * ticketPrice;
     const allowance = await getAllowance(account.address, FORTUNE_ADDRESS);
-
+    console.log("allowance", allowance);
+    
     if (allowance < parseEther(totalPrice + "")) {
-        const tx = await approve(totalPrice);
+        const approveTx = await approve(totalPrice);
+        console.log("approveTx", approveTx);
     }
 
     const { request } = await simulateContract(config, {
@@ -33,28 +38,8 @@ export const drop = async (numTicket: number) => {
         args: [openDrawId, numTicket],
     });
     const hash = await writeContract(config, request);
-    const result = await waitForTransactionReceipt(config, { hash });
-}
-
-const approve = async (totalPrice: number) => {
-    const { request } = await simulateContract(config, {
-        abi: staxAbi,
-        address: STAX_ADDRESS as `0x${string}`,
-        functionName: 'approve',
-        args: [FORTUNE_ADDRESS, parseEther(totalPrice + "")],
-    });
-    const hash = await writeContract(config, request);
-    const result = await waitForTransactionReceipt(config, { hash });
-}
-
-const getAllowance = async (owner: `0x${string}`, spender: string) => {
-    const allowance = await readContract(config, {
-        abi: staxAbi,
-        address: STAX_ADDRESS as `0x${string}`,
-        functionName: 'allowance',
-        args: [owner, spender],
-    })
-    return allowance as bigint;
+    const dropResult = await waitForTransactionReceipt(config, { hash });
+    console.log("dropResult", dropResult);
 }
 
 const getOpenDrawId = async () => {
@@ -63,21 +48,29 @@ const getOpenDrawId = async () => {
         address: FORTUNE_ADDRESS as `0x${string}`,
         functionName: 'nextDrawId',
     });
-
     const openDrawId = Number(nextDrawId) - 1;
     return openDrawId;
 }
 
-export const getTicketPrice = async () => {
+export const getDraw = async () => {
     const openDrawId = await getOpenDrawId();
+
     const draw: any = await readContract(config, {
         abi: fortuneAbi,
         address: FORTUNE_ADDRESS as `0x${string}`,
         functionName: 'draws',
         args: [openDrawId]
     });
+    
+    return draw;
+}
 
-    const ticketPrice = Number(formatEther(draw[3]));
-    return ticketPrice;
+export const getDistributionRate = async () => {
+    const distributionRate: any = await readContract(config, {
+        abi: fortuneAbi,
+        address: FORTUNE_ADDRESS as `0x${string}`,
+        functionName: 'distributionRate',
+    });
 
+    return distributionRate;
 }

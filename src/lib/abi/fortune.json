@@ -19,33 +19,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "target",
-        "type": "address"
-      }
-    ],
-    "name": "AddressEmptyCode",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "AddressInsufficientBalance",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "FailedInnerCall",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "have",
         "type": "address"
       },
@@ -56,39 +29,6 @@
       }
     ],
     "name": "OnlyCoordinatorCanFulfill",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnableInvalidOwner",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "OwnableUnauthorizedAccount",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      }
-    ],
-    "name": "SafeERC20FailedOperation",
     "type": "error"
   },
   {
@@ -163,7 +103,7 @@
         "type": "uint256"
       }
     ],
-    "name": "NewDraw",
+    "name": "NewDrawOpened",
     "type": "event"
   },
   {
@@ -196,6 +136,25 @@
       }
     ],
     "name": "Paused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "participant",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "drawId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Refunded",
     "type": "event"
   },
   {
@@ -251,17 +210,22 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
     ],
-    "name": "claimedWinnings",
+    "name": "addressToDrawToTokens",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint256",
         "name": "",
-        "type": "bool"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -319,11 +283,6 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "startBlock",
-        "type": "uint256"
-      },
-      {
         "internalType": "enum Fortune.DrawStatus",
         "name": "status",
         "type": "uint8"
@@ -374,22 +333,24 @@
         "internalType": "struct Fortune.DistributionRate",
         "name": "distributionRate",
         "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
+      },
       {
         "internalType": "uint256",
-        "name": "_drawId",
+        "name": "hardcap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "softcap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiredTime",
         "type": "uint256"
       }
     ],
-    "name": "enter",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -448,6 +409,49 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "isDistributed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "isRefunded",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "nextDrawId",
     "outputs": [
@@ -465,6 +469,21 @@
       {
         "internalType": "uint256",
         "name": "_entryPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_hardcap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_softcap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_expiredTime",
         "type": "uint256"
       }
     ],
@@ -527,25 +546,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_drawId",
-        "type": "uint256"
-      }
-    ],
-    "name": "pickWinner",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "requestId",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "requestId",
         "type": "uint256"
       },
@@ -556,6 +556,19 @@
       }
     ],
     "name": "rawFulfillRandomWords",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_drawId",
+        "type": "uint256"
+      }
+    ],
+    "name": "refund",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
