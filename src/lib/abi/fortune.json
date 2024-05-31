@@ -59,7 +59,7 @@
         "type": "address"
       }
     ],
-    "name": "DrawCompleted",
+    "name": "DrawFinished",
     "type": "event"
   },
   {
@@ -430,6 +430,25 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "_drawId",
+        "type": "uint256"
+      }
+    ],
+    "name": "isExpired",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "",
         "type": "address"
@@ -540,6 +559,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_drawId",
+        "type": "uint256"
+      }
+    ],
+    "name": "pickWinner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

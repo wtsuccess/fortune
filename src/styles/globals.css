@@ -53,17 +53,13 @@ p.bottom {
 }	
 
 .mySlider .rc-slider-track {
-  @apply h-5 bg-blue;
+  @apply h-[21px] !bg-blue -translate-y-[6px];
 }
 
 .mySlider .rc-slider-rail {
-  @apply h-5 rounded-[30px];
+  @apply h-5 rounded-[30px] -translate-y-[5px];
 }
 
 .mySlider .rc-slider-handle {
-  @apply w-7 h-7 aspect-square -mt-1;
-}
-
-button {
-  
+  @apply w-7 h-7 aspect-square -mt-2;
 }

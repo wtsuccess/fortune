@@ -21,11 +21,11 @@ export const drop = async (numTicket: number) => {
 
     const draw = await getDraw();
     const ticketPrice = Number(formatEther(draw[2]));
-    
+
     const totalPrice = numTicket * ticketPrice;
     const allowance = await getAllowance(account.address, FORTUNE_ADDRESS);
     console.log("allowance", allowance);
-    
+
     if (allowance < parseEther(totalPrice + "")) {
         const approveTx = await approve(totalPrice);
         console.log("approveTx", approveTx);
@@ -61,7 +61,7 @@ export const getDraw = async () => {
         functionName: 'draws',
         args: [openDrawId]
     });
-    
+
     return draw;
 }
 
@@ -73,4 +73,33 @@ export const getDistributionRate = async () => {
     });
 
     return distributionRate;
+}
+
+export const getIsExpired = async () => {
+    const openDrawId = await getOpenDrawId();
+    const isExpired: any = await readContract(config, {
+        abi: fortuneAbi,
+        address: FORTUNE_ADDRESS as `0x${string}`,
+        functionName: 'isExpired',
+        args: [openDrawId]
+    });
+
+    return isExpired;
+}
+
+export const getDepositedAmount = async () => {
+    const account = getAccount(config);
+    if (!account.address) return 0;
+
+    const openDrawId = await getOpenDrawId();
+
+    const depositedAmount: any = await readContract(config, {
+        abi: fortuneAbi,
+        address: FORTUNE_ADDRESS as `0x${string}`,
+        functionName: 'addressToDrawToTokens',
+        args: [account.address, openDrawId]
+    });
+    console.log("depositedAmount", depositedAmount);
+
+    return Number(formatEther(depositedAmount));
 }

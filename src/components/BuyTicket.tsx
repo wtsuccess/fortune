@@ -1,13 +1,20 @@
 import Image from "next/image";
 import buyTicketImage from "@/assets/images/buy_ticket.png";
 import { useEffect, useState } from "react";
-import { drop, getDraw } from "@/lib/contracts/drop";
+import {
+  drop,
+  getDepositedAmount,
+  getDraw,
+  getIsExpired,
+} from "@/lib/contracts/drop";
 import toast from "react-hot-toast";
 import { formatEther } from "viem";
 
 export default function BuyTicket() {
   const [numTicket, setNumTicket] = useState(0);
   const [ticketPrice, setTicketPrice] = useState(0);
+  const [isExpired, setIsExpired] = useState();
+  const [depositedAmount, setDepositedAmount] = useState<number>(0);
 
   useEffect(() => {
     const fetchTicketPrice = async () => {
@@ -15,8 +22,26 @@ export default function BuyTicket() {
       const ticketPrice = Number(formatEther(draw[2]));
       setTicketPrice(ticketPrice);
     };
-    fetchTicketPrice()
+    fetchTicketPrice();
   }, []);
+
+  useEffect(() => {
+    const fetchIsExpired = async () => {
+      const isExpired = await getIsExpired();
+      console.log("isExpired", isExpired);
+      
+      setIsExpired(isExpired);
+    };
+    fetchIsExpired();
+  }, []);
+
+  useEffect(() => {
+    const fetchDepositedAmount = async () => {
+      const depositedAmount = await getDepositedAmount();
+      setDepositedAmount(depositedAmount);
+    };
+    fetchDepositedAmount();
+  });
 
   const decreaseNumTicket = () => {
     if (numTicket > 0) setNumTicket(numTicket - 1);
@@ -65,12 +90,19 @@ export default function BuyTicket() {
       </div>
       <div className="flex flex-col bg-[#2E3452] py-5 px-[30px] rounded-b-[20px]">
         <p className="title">Total</p>
-        <h2 className="text-center lg:text-3xl">{numTicket * ticketPrice} USDC</h2>
+        <h2 className="text-center lg:text-3xl">
+          {numTicket * ticketPrice} USDC
+        </h2>
         <button
           className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:bg-sky-400 ease-in transition-all"
           onClick={handleDrop}
+          disabled={isExpired ? true : false}
         >
-          Enter drop
+          {!isExpired
+            ? "Enter drop"
+            : depositedAmount
+            ? "Withdraw USDC"
+            : "No Draw"}
         </button>
         <p className="text mt-5">You have bonus ?</p>
       </div>

@@ -13,8 +13,8 @@ import Image, { StaticImageData } from "next/image";
 import GradientImage from "@/assets/images/bg_gradient.png";
 import { getDistributionRate, getDraw } from "@/lib/contracts/drop";
 import { formatEther } from "viem";
-import { getBalance } from "@/lib/contracts/usdc";
-import { FORTUNE_ADDRESS } from "@/config/env";
+// import { getBalance } from "@/lib/contracts/usdc";
+// import { FORTUNE_ADDRESS } from "@/config/env";
 import { calculateCompletionPercentage } from "@/lib/utils";
 
 const steps: { image: StaticImageData; title: string; description: string }[] =
@@ -41,13 +41,17 @@ export default function TicketSection() {
   const [progress, setProgress] = useState<number>(0);
   const [hardcap, setHardcap] = useState<number>(0);
   const [totalDistributionRate, setTotalDistributionRate] = useState<number>(0);
-  const [balance, setBalance] = useState<number>(0);
+  const [depositedAmountForDraw, setDepositedAmountForDraw] = useState<number>(0);
 
   useEffect(() => {
-    const fetchHardcap = async () => {
+    const fetchDraw: any = async () => {
       const draw = await getDraw();
+
       const hardcap = Number(formatEther(draw[8]));
+      const depositedAmountForDraw = Number(formatEther(draw[3]));
+
       setHardcap(hardcap);
+      setDepositedAmountForDraw(depositedAmountForDraw);
     };
 
     const fetchDistributionRate = async () => {
@@ -60,23 +64,15 @@ export default function TicketSection() {
       setTotalDistributionRate(Number(totalDistributionRate));
     };
 
-    const fetchBalance = async () => {
-      const balance = Number(formatEther(await getBalance(FORTUNE_ADDRESS)));
-      setBalance(balance);
-    };
-    
-    fetchHardcap();
+    fetchDraw();
     fetchDistributionRate();
-    fetchBalance();
   }, []);
 
   useEffect(() => {
-    const completionPercentage = calculateCompletionPercentage(balance, hardcap);
-    console.log("completionPercentage", completionPercentage);
+    const completionPercentage = calculateCompletionPercentage(depositedAmountForDraw, hardcap);
     setProgress(completionPercentage);
-  }, [balance, hardcap])
+  }, [depositedAmountForDraw, hardcap])
   
-
   return (
     <div className="py-[116px] lg:pt-0 relative">
       <div className="relative z-10 container">
@@ -87,7 +83,7 @@ export default function TicketSection() {
         </div>
         <div id="tickets" className="max-w-[874px] mt-[116px] mx-auto">
           <h5 className="font-bold text-[40px] leading-normal text-center lg:text-3xl">
-            Only <span className="bg-primary">{hardcap}</span> to go
+            Only <span className="bg-primary">{hardcap - depositedAmountForDraw}</span> to go
           </h5>
           <h6 className="lg:text-[15px]">
             before trying to win {(hardcap * totalDistributionRate) / 10000}{" "}
@@ -100,10 +96,12 @@ export default function TicketSection() {
               className="absolute bottom-4 -translate-x-1/2"
               style={{ left: `${progress}%` }}
             >
-              {progress}
+              {progress} %
             </h4>
             <Slider
               className="mySlider"
+              disabled
+              value={progress * hardcap / 100}
               // onChange={(e) => setProgress(e as number)}
               min={0}
               max={hardcap}
