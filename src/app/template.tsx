@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Footer from "@/components/layouts/Footer";
 import { PropsWithChildren, useState } from "react";
@@ -14,15 +14,18 @@ export default function RootTemplate({ children }: PropsWithChildren) {
     <div>
       {children}
       <Footer />
-      <Image
-        src={BubbleImage}
-        alt="Bubble"
-        width={64}
-        height={64}
-        className="fixed bottom-4 left-4 animate-[spin_4s_linear_infinite] cursor-pointer z-10"
-        onClick={() => setShow(true)}
-      />
-      <span className="fixed bottom-[35px] left-[25px] cursor-pointer z-10">Swap</span>
+      <div onClick={() => setShow(true)}>
+        <Image
+          src={BubbleImage}
+          alt="Bubble"
+          width={64}
+          height={64}
+          className="fixed bottom-4 left-4 animate-[spin_4s_linear_infinite] cursor-pointer z-10"
+        />
+        <span className="fixed bottom-[35px] left-[25px] cursor-pointer z-10">
+          Swap
+        </span>
+      </div>
       <div
         className={cx(
           "fixed h-screen w-screen z-50 flex bottom-0 left-0 items-center justify-center transition-all ease-in-out duration-300 bg-black/20",
