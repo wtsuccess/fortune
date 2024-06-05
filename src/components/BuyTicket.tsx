@@ -208,13 +208,15 @@ export default function BuyTicket() {
           </button>
         )}
       </div>
-      <Image
-        src={PandaImage}
-        alt="Panda"
-        className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/3"
-        width={160}
-        height={160}
-      />
+      <div className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/3">
+        <Image
+          src={PandaImage}
+          alt="Panda"
+          className="animate-skew"
+          width={200}
+          height={200}
+        />
+      </div>
     </div>
   );
 }

@@ -28,6 +28,15 @@ const config: Config = {
           DEFAULT: '#2A9CDA'
         }
       },
+      keyframes: {
+        skew: {
+          '0%, 100%': { transform: 'skew(0deg, 0deg)' },
+          '50%': { transform: 'skew(-10deg) rotate(40deg) scale(125%)' },
+        },
+      },
+      animation: {
+        skew: 'skew 1s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
