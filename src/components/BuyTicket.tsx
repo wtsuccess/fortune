@@ -6,6 +6,7 @@ import {
   getDepositedAmount,
   getDraw,
   getIsExpired,
+  getIsRefund,
   refund,
 } from "@/lib/contracts/drop";
 import toast from "react-hot-toast";
@@ -17,6 +18,7 @@ export default function BuyTicket() {
   const [isExpired, setIsExpired] = useState();
   const [depositedAmount, setDepositedAmount] = useState<number>(0);
   const [status, setStatus] = useState();
+  const [isRefunded, setIsRefunded] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchTicketPrice = async () => {
@@ -25,7 +27,7 @@ export default function BuyTicket() {
       setTicketPrice(ticketPrice);
     };
     fetchTicketPrice();
-  }, []);
+  }, [ticketPrice]);
 
   useEffect(() => {
     const fetchIsExpired = async () => {
@@ -34,7 +36,7 @@ export default function BuyTicket() {
       setIsExpired(isExpired);
     };
     fetchIsExpired();
-  }, []);
+  }, [isExpired]);
 
   useEffect(() => {
     const fetchDepositedAmount = async () => {
@@ -42,7 +44,7 @@ export default function BuyTicket() {
       setDepositedAmount(depositedAmount);
     };
     fetchDepositedAmount();
-  }, []);
+  }, [depositedAmount]);
 
   useEffect(() => {
     const fetchStatus = async () => {
@@ -53,7 +55,15 @@ export default function BuyTicket() {
       setStatus(status);
     };
     fetchStatus();
-  }, []);
+  }, [status]);
+
+  useEffect(() => {
+    const fetchIsRefunded = async () => {
+      const isRefunded = await getIsRefund();
+      setIsRefunded(isRefunded);
+    };
+    fetchIsRefunded();
+  }, [isRefunded]);
 
   const decreaseNumTicket = () => {
     if (numTicket > 0) setNumTicket(numTicket - 1);
@@ -94,7 +104,7 @@ export default function BuyTicket() {
         <h2 className="lg:text-3xl mt-1">
           {!isExpired && status === 1 && "Buy Your Tickets"}
           {!isExpired && status === 3 && "Draw Closed"}
-          {isExpired && depositedAmount && "Draw Expired"}
+          {isExpired && "Draw Expired"}
         </h2>
         {!isExpired && status === 1 && (
           <>
@@ -131,21 +141,35 @@ export default function BuyTicket() {
               onClick={handleDrop}
             >
               Enter Drop
-              {/* {!isExpired && status === 2 && "Draw Completing"}
-          {!isExpired && status === 3 && "Draw Completed"}
-          {isExpired && depositedAmount && "Draw Canceled, Withdraw USDC"}
-          {isExpired && !depositedAmount && "Draw Canceled"} */}
             </button>
             <p className="text mt-5">You have bonus ?</p>
           </>
         )}
 
-        {isExpired && depositedAmount && (
+        {isExpired && depositedAmount > 0 && !isRefunded && (
           <button
             className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:bg-sky-400 ease-in transition-all"
             onClick={handleRefund}
           >
             Withdraw USDC
+          </button>
+        )}
+
+        {isExpired && depositedAmount > 0 && isRefunded && (
+          <button
+            className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:bg-sky-400 ease-in transition-all"
+            disabled
+          >
+            Already Refunded
+          </button>
+        )}
+
+        {isExpired && depositedAmount === 0 && (
+          <button
+            className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:bg-sky-400 ease-in transition-all"
+            disabled
+          >
+            Notify me when new available
           </button>
         )}
 
@@ -157,8 +181,6 @@ export default function BuyTicket() {
             Notify me when new available
           </button>
         )}
-
-        
       </div>
     </div>
   );

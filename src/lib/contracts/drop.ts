@@ -120,3 +120,20 @@ export const refund = async () => {
     const refundResult = await waitForTransactionReceipt(config, { hash });
     console.log("refundResult", refundResult);
 }
+
+export const getIsRefund = async () => {
+    const account = getAccount(config);
+    if (!account.address) throw Error('Please connect your wallet');;
+
+    const openDrawId = await getOpenDrawId();
+
+    const isRefunded: any = await readContract(config, {
+        abi: fortuneAbi,
+        address: FORTUNE_ADDRESS as `0x${string}`,
+        functionName: 'isRefunded',
+        args: [account.address, openDrawId]
+    });
+    console.log("isRefunded", isRefunded);
+
+    return isRefunded;
+}
