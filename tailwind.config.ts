@@ -35,7 +35,7 @@ const config: Config = {
         },
       },
       animation: {
-        skew: 'skew 1s ease-in-out infinite',
+        skew: 'skew 1800ms ease-in-out infinite',
       },
     },
   },
