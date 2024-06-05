@@ -80,7 +80,7 @@ export default function BuyTicket() {
       await drop(numTicket);
       toast.success("Transaction Successful!");
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error("Transaction Failed");
     }
   };
 
@@ -89,7 +89,7 @@ export default function BuyTicket() {
       await refund();
       toast.success("Transaction Successful!");
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error("Transaction Failed");
     }
   };
 
