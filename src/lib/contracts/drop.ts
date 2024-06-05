@@ -103,3 +103,20 @@ export const getDepositedAmount = async () => {
 
     return Number(formatEther(depositedAmount));
 }
+
+export const refund = async () => {
+    const account = getAccount(config);
+    if (!account.address) return 0;
+
+    const openDrawId = await getOpenDrawId();
+
+    const { request } = await simulateContract(config, {
+        abi: fortuneAbi,
+        address: FORTUNE_ADDRESS as `0x${string}`,
+        functionName: 'refund',
+        args: [openDrawId],
+    });
+    const hash = await writeContract(config, request);
+    const refundResult = await waitForTransactionReceipt(config, { hash });
+    console.log("refundResult", refundResult);
+}

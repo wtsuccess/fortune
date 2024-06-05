@@ -41,7 +41,8 @@ export default function TicketSection() {
   const [progress, setProgress] = useState<number>(0);
   const [hardcap, setHardcap] = useState<number>(0);
   const [totalDistributionRate, setTotalDistributionRate] = useState<number>(0);
-  const [depositedAmountForDraw, setDepositedAmountForDraw] = useState<number>(0);
+  const [depositedAmountForDraw, setDepositedAmountForDraw] =
+    useState<number>(0);
 
   useEffect(() => {
     const fetchDraw: any = async () => {
@@ -69,10 +70,13 @@ export default function TicketSection() {
   }, []);
 
   useEffect(() => {
-    const completionPercentage = calculateCompletionPercentage(depositedAmountForDraw, hardcap);
+    const completionPercentage = calculateCompletionPercentage(
+      depositedAmountForDraw,
+      hardcap
+    );
     setProgress(completionPercentage);
-  }, [depositedAmountForDraw, hardcap])
-  
+  }, [depositedAmountForDraw, hardcap]);
+
   return (
     <div className="py-[116px] lg:pt-0 relative">
       <div className="relative z-10 container">
@@ -83,7 +87,13 @@ export default function TicketSection() {
         </div>
         <div id="tickets" className="max-w-[874px] mt-[116px] mx-auto">
           <h5 className="font-bold text-[40px] leading-normal text-center lg:text-3xl">
-            Only <span className="bg-primary">{hardcap - depositedAmountForDraw}</span> to go
+            Only{" "}
+            <span className="bg-primary">
+              {hardcap - depositedAmountForDraw > 0
+                ? hardcap - depositedAmountForDraw
+                : 0}
+            </span>{" "}
+            to go
           </h5>
           <h6 className="lg:text-[15px]">
             before trying to win {(hardcap * totalDistributionRate) / 10000}{" "}
@@ -101,7 +111,7 @@ export default function TicketSection() {
             <Slider
               className="mySlider"
               disabled
-              value={progress * hardcap / 100}
+              value={(progress * hardcap) / 100}
               // onChange={(e) => setProgress(e as number)}
               min={0}
               max={hardcap}

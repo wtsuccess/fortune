@@ -7,6 +7,7 @@ export const shortenAddress = (address: `0x${string}`) => {
 
 export const calculateCompletionPercentage = (balance: number, hardcap: number) => {
     const completionPercentage = (balance / hardcap) * 100;
+    if (completionPercentage > 100) return 100;
     return completionPercentage;
 };
 

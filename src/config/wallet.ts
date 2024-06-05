@@ -1,6 +1,6 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { cookieStorage, createStorage } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
+import { polygon, sepolia } from 'wagmi/chains'
 import { DEV_MODE, PROJECT_ID } from './env'
 
 const metadata = {
@@ -12,7 +12,7 @@ const metadata = {
 
 export const chains = DEV_MODE
   ? ([sepolia] as const)
-  : ([mainnet] as const)
+  : ([polygon] as const)
 
 export const config = defaultWagmiConfig({
   chains,
