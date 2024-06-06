@@ -88,7 +88,7 @@ export default function TicketSection() {
         <div id="tickets" className="max-w-[874px] mt-[116px] mx-auto">
           <h5 className="font-bold text-[40px] leading-normal text-center lg:text-3xl">
             Only{" "}
-            <span className="bg-primary">
+            <span className="text-primary">
               {hardcap - depositedAmountForDraw > 0
                 ? hardcap - depositedAmountForDraw
                 : 0}
