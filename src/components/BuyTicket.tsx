@@ -208,11 +208,11 @@ export default function BuyTicket() {
           </button>
         )}
       </div>
-      <div className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/3">
+      <div className="group absolute top-0 right-0 translate-x-1/3 -translate-y-1/3">
         <Image
           src={PandaImage}
           alt="Panda"
-          className="animate-skew"
+          className="animate-skew-once group-hover:animate-skew"
           width={200}
           height={200}
         />

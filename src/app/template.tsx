@@ -2,7 +2,8 @@
 
 import Footer from "@/components/layouts/Footer";
 import { PropsWithChildren, useState } from "react";
-import BubbleImage from "@/assets/images/bubble.png";
+// import BubbleImage from "@/assets/images/bubble.png";
+import PandaIcon from "@/assets/images/panda-icon.png";
 import Image from "next/image";
 import React from "react";
 import cx from "classnames";
@@ -15,16 +16,23 @@ export default function RootTemplate({ children }: PropsWithChildren) {
       {children}
       <Footer />
       <div onClick={() => setShow(true)}>
-        <Image
-          src={BubbleImage}
-          alt="Bubble"
+        {/* <Image
+          src={PandaIcon}
+          alt="PandaIcon"
           width={64}
           height={64}
           className="fixed bottom-4 left-4 animate-[spin_4s_linear_infinite] cursor-pointer z-10"
+        /> */}
+        <Image
+          src={PandaIcon}
+          alt="PandaIcon"
+          width={85}
+          height={85}
+          className="fixed bottom-4 left-4 cursor-pointer z-10"
         />
-        <span className="fixed bottom-[35px] left-[25px] cursor-pointer z-10">
+        {/* <span className="fixed bottom-[35px] left-[25px] cursor-pointer z-10">
           Swap
-        </span>
+        </span> */}
       </div>
       <div
         className={cx(
