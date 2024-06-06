@@ -166,7 +166,7 @@ export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
               className="bg-primary rounded-[10px] w-2/3 text-center mx-auto py-[15px] mt-5 text-text lg:mt-2 cursor-pointer hover:bg-sky-400 ease-in transition-all"
               onClick={handleDrop}
             >
-              Enter Drop
+              Enter Now
             </button>
             <p className="text mt-5">You have bonus ?</p>
           </>
