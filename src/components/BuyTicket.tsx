@@ -1,6 +1,6 @@
 import Image from "next/image";
 import buyTicketImage from "@/assets/images/buy_ticket.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   drop,
   getDepositedAmount,
@@ -92,6 +92,30 @@ export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
       toast.error("Transaction Failed");
     }
   };
+
+  const elementRef = useRef(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="rounded-[20px] border-primary border-[3px] relative">
@@ -208,11 +232,11 @@ export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
           </button>
         )}
       </div>
-      <div className="group absolute top-0 right-0 translate-x-1/3 -translate-y-1/3">
+      <div className="group absolute top-0 right-0 translate-x-1/3 -translate-y-1/3" ref={elementRef}>
         <Image
           src={PandaImage}
           alt="Panda"
-          className="animate-skew-once group-hover:animate-skew w-[200px] h-[200px] sm:w-[80px] sm:h-[80px]"
+          className={`w-[200px] h-[200px] sm:w-[80px] sm:h-[80px] ${isInView ? 'animate-skew-once' : ''}`}
         />
       </div>
     </div>
