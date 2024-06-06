@@ -43,14 +43,13 @@ export default function HeroSection() {
           <h4 className="text-primary">PolarFi Fortune</h4>
           <h1 className="text-text lg:text-[35px] lg:mb-2">Get the Jackpot</h1>
           <p className={cx("text text-text", openSans.className)}>
-            Welcome to the PolarFi Drop where dreams come true and the
+            Welcome to the PolarFi Fortune where dreams come true and the
             possibilities are endless. Buy tickets to participate in our global
             prize pool which is growing every moment!
           </p>
           <p className={cx("text mt-1 text-text", openSans.className)}>
-            The more tickets you buy, the greater your chances of winning this
-            gargantuan prize pool. Don&apos;t wait any longer, turn your
-            investment into a fabulous victory !
+            The more tickets you acquire, the greater your chances of winning the prize pool. Don&apos;t wait any longer, turn your
+            luck into a fabulous victory !
           </p>
           <button
             className="rounded-full h-[54px] w-[196px] font-semibold text-text bg-blue block mx-auto mt-6 hover:bg-sky-400 ease-in transition-all"
