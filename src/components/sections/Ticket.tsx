@@ -121,7 +121,7 @@ export default function TicketSection() {
           </div>
         </div>
         <div className="max-w-[706px] mt-20 mx-auto">
-          <BuyTicket />
+          <BuyTicket remainedUSDC={hardcap - depositedAmountForDraw}/>
         </div>
       </div>
       <Image

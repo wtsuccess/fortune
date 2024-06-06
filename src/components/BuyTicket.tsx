@@ -14,7 +14,7 @@ import { formatEther } from "viem";
 
 import PandaImage from "@/assets/images/panda2.png";
 
-export default function BuyTicket() {
+export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
   const [numTicket, setNumTicket] = useState(0);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [isExpired, setIsExpired] = useState();
@@ -72,7 +72,7 @@ export default function BuyTicket() {
   };
 
   const increaseNumTicket = () => {
-    setNumTicket(numTicket + 1);
+    if (numTicket < remainedUSDC / ticketPrice) setNumTicket(numTicket + 1);
   };
 
   const handleDrop = async () => {
