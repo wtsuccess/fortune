@@ -16,6 +16,7 @@ import { formatEther } from "viem";
 // import { getBalance } from "@/lib/contracts/usdc";
 // import { FORTUNE_ADDRESS } from "@/config/env";
 import { calculateCompletionPercentage } from "@/lib/utils";
+// import Slider from "../Slider";
 
 const steps: { image: StaticImageData; title: string; description: string }[] =
   [
@@ -96,8 +97,8 @@ export default function TicketSection() {
             to go
           </h5>
           <h6 className="lg:text-[15px]">
-            before trying to win {(hardcap * totalDistributionRate) / 10000}{" "}
-            USDC
+            Now&apos;s your chance to win{" "}
+            {(hardcap * totalDistributionRate) / 10000} USDC
           </h6>
           <div className="relative pt-4 mt-[35px]">
             <h4 className="absolute -bottom-10 left-0">0</h4>
@@ -116,6 +117,7 @@ export default function TicketSection() {
               min={0}
               max={hardcap}
             />
+            {/* <Slider progress={30} /> */}
           </div>
         </div>
         <div className="max-w-[706px] mt-20 mx-auto">
