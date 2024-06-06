@@ -20,7 +20,7 @@ export default function HeroSection() {
   };
 
   return (
-    <div className="h-[708px] relaitve flex items-center justify-center overflow-hidden bg-[url('/assets/images/hero_background.jpg')] bg-cover bg-center">
+    <div className="h-[708px] relaitve flex items-center justify-center overflow-hidden bg-[url('/assets/images/hero_background.jpg')] sm:bg-[20%] bg-cover bg-center">
       <div className="absolute top-5 w-full">
         <div className="max-w-[1560px] w-full mx-auto px-5 flex justify-end lg:justify-center">
           <button

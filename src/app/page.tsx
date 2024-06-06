@@ -5,7 +5,7 @@ import TicketSection from "@/components/sections/Ticket";
 
 export default function Home() {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <HeroSection />
       <TicketSection />
     </div>
