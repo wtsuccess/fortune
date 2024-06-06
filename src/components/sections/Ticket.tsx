@@ -120,7 +120,7 @@ export default function TicketSection() {
             {/* <Slider progress={30} /> */}
           </div>
         </div>
-        <div className="max-w-[706px] mt-20">
+        <div className="max-w-[706px] mt-20 mx-auto">
           <BuyTicket remainedUSDC={hardcap - depositedAmountForDraw}/>
         </div>
       </div>

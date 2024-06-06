@@ -212,7 +212,7 @@ export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
         <Image
           src={PandaImage}
           alt="Panda"
-          className="animate-skew-once group-hover:animate-skew w-[200px] h-[200px] sm:w-[130px] sm:h-[130px]"
+          className="animate-skew-once group-hover:animate-skew w-[200px] h-[200px] sm:w-[80px] sm:h-[80px]"
         />
       </div>
     </div>
