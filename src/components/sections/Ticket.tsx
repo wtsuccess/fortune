@@ -41,6 +41,7 @@ const steps: { image: StaticImageData; title: string; description: string }[] =
 export default function TicketSection() {
   const [progress, setProgress] = useState<number>(0);
   const [hardcap, setHardcap] = useState<number>(0);
+  const [softcap, setSoftcap] = useState<number>(0);
   const [totalDistributionRate, setTotalDistributionRate] = useState<number>(0);
   const [depositedAmountForDraw, setDepositedAmountForDraw] =
     useState<number>(0);
@@ -50,9 +51,11 @@ export default function TicketSection() {
       const draw = await getDraw();
 
       const hardcap = Number(formatEther(draw[8]));
+      const softcap = Number(formatEther(draw[9]));
       const depositedAmountForDraw = Number(formatEther(draw[3]));
 
       setHardcap(hardcap);
+      setSoftcap(softcap);
       setDepositedAmountForDraw(depositedAmountForDraw);
     };
 
@@ -88,13 +91,19 @@ export default function TicketSection() {
         </div>
         <div id="tickets" className="max-w-[874px] mt-[116px] mx-auto">
           <h5 className="font-bold text-[40px] leading-normal text-center lg:text-3xl">
-            Only{" "}
-            <span className="text-primary">
-              {hardcap - depositedAmountForDraw > 0
-                ? hardcap - depositedAmountForDraw
-                : 0}
-            </span>{" "}
-            to go
+            {depositedAmountForDraw < softcap ? (
+              "PolarFi Fortune"
+            ) : (
+              <>
+                Only
+                <span className="text-primary">
+                  {hardcap - depositedAmountForDraw > 0
+                    ? hardcap - depositedAmountForDraw
+                    : 0}
+                </span>
+                to go
+              </>
+            )}
           </h5>
           <h6 className="lg:text-[15px]">
             Now&apos;s your chance to win{" "}
@@ -121,7 +130,7 @@ export default function TicketSection() {
           </div>
         </div>
         <div className="max-w-[706px] mt-20 mx-auto">
-          <BuyTicket remainedUSDC={hardcap - depositedAmountForDraw}/>
+          <BuyTicket remainedUSDC={hardcap - depositedAmountForDraw} />
         </div>
       </div>
       <Image
