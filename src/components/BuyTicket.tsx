@@ -61,8 +61,12 @@ export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
 
   useEffect(() => {
     const fetchIsRefunded = async () => {
-      const isRefunded = await getIsRefund();
-      setIsRefunded(isRefunded);
+      try {
+        const isRefunded = await getIsRefund();
+        setIsRefunded(isRefunded);
+      } catch (err: any) {
+        toast.error(err.message);
+      }
     };
     fetchIsRefunded();
   }, [isRefunded]);
@@ -232,11 +236,16 @@ export default function BuyTicket({ remainedUSDC }: { remainedUSDC: number }) {
           </button>
         )}
       </div>
-      <div className="group absolute top-0 right-0 translate-x-1/3 -translate-y-1/3" ref={elementRef}>
+      <div
+        className="group absolute top-0 right-0 translate-x-1/3 -translate-y-1/3"
+        ref={elementRef}
+      >
         <Image
           src={PandaImage}
           alt="Panda"
-          className={`w-[200px] h-[200px] sm:w-[80px] sm:h-[80px] ${isInView ? 'animate-skew-once' : ''}`}
+          className={`w-[200px] h-[200px] sm:w-[80px] sm:h-[80px] ${
+            isInView ? "animate-skew-once" : ""
+          }`}
         />
       </div>
     </div>
