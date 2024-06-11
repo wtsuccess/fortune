@@ -23,24 +23,20 @@ export default function RootTemplate({ children }: PropsWithChildren) {
           height={85}
           className="fixed bottom-4 left-4 cursor-pointer z-10"
         />
-        <div className="cursor-pointer flex items-center justify-center fixed bottom-4 left-6 group-hover:opacity-100 group-hover:-translate-y-28 opacity-0 transition-all duration-500 ease-in-out">
+        <div className="cursor-pointer flex items-center justify-center fixed bottom-4 left-6 group-hover:opacity-100 group-hover:-translate-y-28 opacity-0 transition-all duration-500 ease-in-out z-20">
           <div className="relative">
             <Image
               src={BubbleImage}
-              alt="PandaIcon"
+              alt="BubbleImage"
               width={64}
               height={64}
-              className="cursor-pointer z-20"
+              className="cursor-pointer z-30"
             />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
               Swap
             </span>
           </div>
         </div>
-
-        {/* <span className="fixed bottom-[35px] left-[25px] cursor-pointer z-10">
-          Swap
-        </span> */}
       </div>
       <div
         className={cx(
@@ -60,14 +56,6 @@ export default function RootTemplate({ children }: PropsWithChildren) {
             width: "404px",
             height: "536px",
             borderRadius: "20px",
-            // "@media screen and (maxWidth: 403px)": {
-            //   width: "100%",
-            //   height: "617px",
-            // },
-            // "@media screen and (maxWidth: 353px)": {
-            //   width: "353px",
-            //   height: "617px",
-            // },
           }}
         />
         <div className="absolute inset-0" onClick={() => setShow(false)}></div>
